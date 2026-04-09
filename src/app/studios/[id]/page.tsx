@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, Award, Calendar, MapPin, Music2, Star } from 'lucide-react';
+import { trace } from '@opentelemetry/api';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import Navbar from '@/components/navbar';
@@ -14,7 +15,30 @@ interface Props {
 
 export default async function StudioPage({ params }: Props) {
   const { id } = await params;
-  const studio = getStudioById(id);
+
+  const studio = await trace
+    .getTracer('soundstay')
+    .startActiveSpan('studio.lookup', (span) => {
+      try {
+        const result = getStudioById(id);
+        span.setAttribute('studio.id', id);
+        span.setAttribute('studio.found', result !== undefined);
+        if (result) {
+          span.setAttribute('studio.name', result.name);
+          span.setAttribute('studio.city', result.city);
+          span.setAttribute('studio.country', result.country);
+          span.setAttribute('studio.type', result.type);
+          span.setAttribute('studio.price_per_night', result.pricePerNight);
+          span.setAttribute('studio.rating', result.rating);
+          span.setAttribute('studio.year_built', result.yearBuilt);
+          span.setAttribute('studio.amenity_count', result.amenities.length);
+          span.setAttribute('studio.genres', result.genres.join(', '));
+        }
+        return result;
+      } finally {
+        span.end();
+      }
+    });
 
   if (!studio) {
     notFound();
