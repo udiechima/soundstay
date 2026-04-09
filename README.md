@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SoundStay
+
+An Airbnb-inspired platform for booking historic music studios around the world, with the ability to pre-arrange session musicians and collaborators for your stay.
+
+## Features
+
+- **Browse iconic studios** — Abbey Road, Electric Lady, Capitol Studios, Hansa Tonstudio, and more, filterable by type (Recording, Film Score, etc.)
+- **Studio detail pages** — Photo galleries, full descriptions, gear/amenity lists, and notable artists who recorded there
+- **Collaborator picker** — Select from 8 session musician types (Guitarist, Vocalist, Bassist, Drummer, Keyboardist, Saxophonist, Violinist, Producer) that can be pre-arranged on arrival
+- **Live price calculator** — Booking panel updates the total in real time as you add dates and collaborators
+- **Responsive UI** — Works on mobile and desktop
+
+## Stack
+
+- [Next.js 16](https://nextjs.org) (App Router, Server Components)
+- [Tailwind CSS v4](https://tailwindcss.com)
+- [shadcn/ui](https://ui.shadcn.com) (Base UI primitives)
+- TypeScript
+- Deployed on [Vercel](https://vercel.com)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+  app/
+    page.tsx                # Home — hero, search, studio grid
+    studios/[id]/page.tsx   # Studio detail page
+  components/
+    navbar.tsx              # Sticky header with mobile menu
+    studios-explorer.tsx    # Category filter + studio card grid
+    booking-panel.tsx       # Date picker, collaborator selector, price breakdown
+  lib/
+    data.ts                 # Mock studio and collaborator data
+```
 
-## Learn More
+## Live Demo
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[soundstay.vercel.app](https://soundstay.vercel.app)
